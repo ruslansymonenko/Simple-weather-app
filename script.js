@@ -2,8 +2,11 @@ const cityContainer = document.querySelector('#city');
 const weatherIconContainer = document.querySelector('#weatherIcon');
 const temperatureContainer = document.querySelector('#temperature');
 const weatherDesriptionContainer = document.querySelector('#weatherDesription');
-const extraInfoList = document.querySelector('#extraInfo');
 const feelsLikeContainer = document.querySelector('#feelsLike');
+
+const windValueContainer = document.querySelector('#windValue');
+const humidityValueContainer = document.querySelector('#humidityValue');
+const precipValueContainer = document.querySelector('#precipValue');
 
 
 function addCity (data, element) {
@@ -30,6 +33,19 @@ function addWeatherDecription (data, element) {
 }
 
 
+function addExtraInfo (data, container1, container2, container3) {
+    let windPower = data.current.wind_kph;
+    let windDirection = data.current.wind_dir;
+    let wind = windPower + ' km/h ' + windDirection;
+    
+    let humidity = data.current.humidity + ' g/m';
+    let precip = data.current.precip_mm + ' mm';
+
+    container1.innerText = wind;
+    container2.innerText = humidity;
+    container3.innerText = precip;
+}
+
 
 fetch('http://api.weatherapi.com/v1/current.json?key=871d5f2d8cec481b898202849222605&q=London&aqi=no')
     .then((response) => {
@@ -40,5 +56,6 @@ fetch('http://api.weatherapi.com/v1/current.json?key=871d5f2d8cec481b89820284922
         addTemperature(data, temperatureContainer);
         addIcon(data, weatherIconContainer);
         addWeatherDecription(data, weatherDesriptionContainer);
+        addExtraInfo(data, windValueContainer, humidityValueContainer, precipValueContainer);
         console.log(data);
     })
